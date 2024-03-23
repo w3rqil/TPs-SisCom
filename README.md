@@ -7,4 +7,4 @@ Cada trabajo práctico se realizará en una rama distinta.
 Miembros del grupo:
 - Clemenz, Jeremías
 - Mansilla, Josías Leonel
-- Schroder Ferrando, Florencia
+- Schröder Ferrando, Florencia
