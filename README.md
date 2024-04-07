@@ -30,7 +30,7 @@ A continuación se presenta un diagrama de flujos del proyecto hasta el momento:
 
 
 <p align="center">
-  <img src="diagrams/diagrama_flujo_TP2.png"/>
+    <img src="diagrams/diagrama_flujo_TP2.png"/>
 </p>
 
 ## Secuencia
