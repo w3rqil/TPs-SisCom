@@ -1,26 +1,35 @@
 import requests
 import subprocess
+import ctypes
 import sys
 import matplotlib.pyplot as plt
 import tkinter as tk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
+C_PATH = './build/programa_en_C'
+# Load the library and define the argument and return types of the C function
+libgini = ctypes.CDLL(C_PATH)
+libgini.programa_en_C.argtypes = [ctypes.c_float]
+libgini.programa_en_C.restype = ctypes.c_int
 
 def obtener_indices_gini(pais):
     url = f"https://api.worldbank.org/v2/en/country/{pais}/indicator/SI.POV.GINI?format=json&date=2011:2020&per_page=32500&page=1&country=%22{pais}%22"
     response = requests.get(url)
     data = response.json()
     indices_gini = [(entry["date"], entry["value"]) for entry in data[1] if entry["value"] is not None]
+    print("indices gini_float:", indices_gini)
     return indices_gini
+
 
 def obtener_resultados(indices_gini):
     resultados = []
     for year, indice_gini in indices_gini:
-        resultado = subprocess.run(['./programa_en_C', str(indice_gini)], capture_output=True, text=True)
-        resultado_valor = float(resultado.stdout.strip())
-        resultados.append((year, resultado_valor))
+        resultado = libgini.programa_en_C(indice_gini)
+        resultados.append((year, resultado))
+    print("indices gini_int:", resultados)
     return resultados
+
 
 def configurar_figura(fig):
     ax = fig.add_subplot(111)  # Crea un subplot en la figura
