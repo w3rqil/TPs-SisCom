@@ -10,8 +10,8 @@ from matplotlib.figure import Figure
 C_PATH = './build/programa_en_C'
 # Load the library and define the argument and return types of the C function
 libgini = ctypes.CDLL(C_PATH)
-libgini.programa_en_C.argtypes = [ctypes.c_float]
-libgini.programa_en_C.restype = ctypes.c_int
+libgini.convert_and_increment.argtypes = [ctypes.c_float]
+libgini.convert_and_increment.restype = ctypes.c_int
 
 def obtener_indices_gini(pais):
     url = f"https://api.worldbank.org/v2/en/country/{pais}/indicator/SI.POV.GINI?format=json&date=2011:2020&per_page=32500&page=1&country=%22{pais}%22"
@@ -25,7 +25,7 @@ def obtener_indices_gini(pais):
 def obtener_resultados(indices_gini):
     resultados = []
     for year, indice_gini in indices_gini:
-        resultado = libgini.programa_en_C(indice_gini)
+        resultado = libgini.convert_and_increment(indice_gini)
         resultados.append((year, resultado))
     print("indices gini_int:", resultados)
     return resultados
