@@ -5,6 +5,6 @@ Cada trabajo práctico se realizará en una rama distinta.
 
 
 Miembros del grupo:
-- Clemenz, Jeremías
-- Mansilla, Josías Leonel
-- Schröder Ferrando, Florencia
+- [Clemenz, Jeremías](https://github.com/JereClemenz)
+- [Mansilla, Josías Leonel](https://github.com/w3rqil)
+- [Schröder Ferrando, Florencia](https://github.com/FlorSchroder)
