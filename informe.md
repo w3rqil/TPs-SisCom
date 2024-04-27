@@ -14,7 +14,8 @@ sudo apt install qemu-system-x86
 - qemu-system-x86_64 --drive file=main.img,format=raw,index=0,media=disk
 ```
 Luego de ejecutar los comandos anteriores, se podrá ver la salida:
-*********************poner img qemu1*****************
+\
+![Texto alternativo](media/qemu1.jpeg)
 
 
 ### Hello World
@@ -56,8 +57,8 @@ ld --oformat binary -o main.img -T link.ld main.o
 qemu-system-x86_64 -hda main.img
 ```
 Donde la primer línea ensambla el archivo con *'as'*. Luego se os enlaza utilizando el linker, se utiliza también la opción *--oformat binary* que nos da el formato de salida. Por último, la tercer línea ejecuta el archivo en el emulador QEMU obteniendo la siquiente salida:
-
-*************************PONER IMÁGEN "HELLOWORLD"*****************************
+\
+![Texto alternativo](media/helloWorld.png)
 **Compare la salida de objdump con hd, verifique donde fue colocado el programa dentro de la imagen.**
 
 Se puede comparar la salida de dos formas distintas:
