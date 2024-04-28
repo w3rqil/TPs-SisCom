@@ -161,6 +161,8 @@ ld --oformat binary -o main.img -T link.ld main.o
 qemu-system-x86_64 -hda main.img -s -S -monitor stdio
 ```
 Donde:
+- **--oformat binary**: Esta opción del linker se utiliza para indicarle al kernel de que el linkeo a realizar es
+con un archivo de tipo “object” con uno de tipo binario. 
 - **-s**: esta opción habilita un servidor de depuración GDB en el puerto 1234
 - **-S**: esta opción detiene el servidor en el inicio
 - **-monitor stdio**: Habilita una interfáz que permite la interacción con el sistema emulado a través de la entrada y salida estándar.
