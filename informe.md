@@ -153,3 +153,16 @@ Podemos correlacionar las instrucciones de objdump con las secuencias de bytes e
     - Después de la sección de código, la salida de objdump muestra datos como la cadena "hello world".
     - En la salida de hd, vemos que la secuencia de bytes *"68 65 6c 6c 6f 20 77 6f 72 6c 64 00"* rerpesenta la cadena "Hello world". Lo que se corresponde conla secuencia de bytes en el objdump.
 
+#### Debugger
+Se puede realizar un debuggin haciendo uso del comando *qemu-system-x86_64 -hda main.img -s -S -monitor stdio* que es agregado en el archivo **compilarycorrer**, quedando éste de la forma:
+```
+as -g -o main.o main.S
+ld --oformat binary -o main.img -T link.ld main.o
+qemu-system-x86_64 -hda main.img -s -S -monitor stdio
+```
+Donde:
+- **-s**: esta opción habilita un servidor de depuración GDB en el puerto 1234
+- **-S**: esta opción detiene el servidor en el inicio
+- **-monitor stdio**: Habilita una interfáz que permite la interacción con el sistema emulado a través de la entrada y salida estándar.
+
+
