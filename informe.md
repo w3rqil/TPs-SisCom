@@ -153,7 +153,7 @@ Podemos correlacionar las instrucciones de objdump con las secuencias de bytes e
     - Después de la sección de código, la salida de objdump muestra datos como la cadena "hello world".
     - En la salida de hd, vemos que la secuencia de bytes *"68 65 6c 6c 6f 20 77 6f 72 6c 64 00"* rerpesenta la cadena "Hello world". Lo que se corresponde conla secuencia de bytes en el objdump.
 
-#### Debugger
+### Debugger
 Se puede realizar un debuggin haciendo uso del comando *qemu-system-x86_64 -hda main.img -s -S -monitor stdio* que es agregado en el archivo **compilarycorrer**, quedando éste de la forma:
 ```
 as -g -o main.o main.S
@@ -167,4 +167,68 @@ con un archivo de tipo “object” con uno de tipo binario.
 - **-S**: esta opción detiene el servidor en el inicio
 - **-monitor stdio**: Habilita una interfáz que permite la interacción con el sistema emulado a través de la entrada y salida estándar.
 
+### gdb-dashboard
 
+Ejecutar el siguiente script:
+```
+~/TPs-SisCom/protected-mode-sdc-master/02QemuFiles$ ./lunchQemu.sh 
+```
+Podemos ver como se inicializa el qemu pero queda pausado esperando las instrucciones de el debugger.
+\
+![Texto alternativo](media/terminal.png)
+\
+\
+![Texto alternativo](media/qemu.png)
+\
+
+Abrir otra terminal e inicializar el debugger:
+<pre>(base) <font color="#8AE234"><b>florxha@florxha-Inspiron-7375</b></font>:<font color="#729FCF"><b>~</b></font>$ gdb
+<font color="#AD7FA8"><b>GNU gdb (Ubuntu 12.1-0ubuntu1~22.04) 12.1</b></font>
+Copyright (C) 2022 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later &lt;http://gnu.org/licenses/gpl.html&gt;
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type &quot;show copying&quot; and &quot;show warranty&quot; for details.
+This GDB was configured as &quot;x86_64-linux-gnu&quot;.
+Type &quot;show configuration&quot; for configuration details.
+For bug reporting instructions, please see:
+&lt;https://www.gnu.org/software/gdb/bugs/&gt;.
+Find the GDB manual and other documentation resources online at:
+    &lt;http://www.gnu.org/software/gdb/documentation/&gt;.
+
+For help, type &quot;help&quot;.
+Type &quot;apropos word&quot; to search for commands related to &quot;word&quot;.
+<font color="#555753">&gt;&gt;&gt;</font> 
+</pre>
+
+Con los siguientes comandos indicar:
+<p align="center">
+  <img src="media/gdb.png" alt="Texto alternativo">
+</p>
+
+- target remote localhost:1234 => establece una conexión remota entre GDB y un servidor de depuración que se está ejecutando en la misma máquina local en el puerto 1234
+- set architechture i8086 => establece la arquitectura del objetivo de depuración
+- br *0x7c00 => establece un punto de interrupción en la dirección de memoria 0x7c00
+
+<pre><font color="#06989A">───</font> <font color="#FCE94F"><b>Output/messages</b></font> <font color="#06989A">──────────────────────────────────────────────────────────────────────────────────────────────────</font>
+<font color="#3465A4">0x0000e05b</font> in <font color="#C4A000">??</font> ()
+<font color="#06989A">───</font> <font color="#FCE94F"><b>Assembly</b></font> <font color="#06989A">─────────────────────────────────────────────────────────────────────────────────────────────────────────</font>
+ <font color="#8AE234"><b>0x0000e05b  ?</b></font> <font color="#AFD700">add</font><font color="#EEEEEC">    %al,(%eax)</font>
+ <font color="#555753">0x0000e05d</font>  <font color="#555753">?</font> <font color="#AFD700">add</font><font color="#EEEEEC">    %al,(%eax)</font>
+ <font color="#555753">0x0000e05f</font>  <font color="#555753">?</font> <font color="#AFD700">add</font><font color="#EEEEEC">    %al,(%eax)</font>
+ <font color="#555753">0x0000e061</font>  <font color="#555753">?</font> <font color="#AFD700">add</font><font color="#EEEEEC">    %al,(%eax)</font>
+ <font color="#555753">0x0000e063</font>  <font color="#555753">?</font> <font color="#AFD700">add</font><font color="#EEEEEC">    %al,(%eax)</font>
+ <font color="#555753">0x0000e065</font>  <font color="#555753">?</font> <font color="#AFD700">add</font><font color="#EEEEEC">    %al,(%eax)</font>
+ <font color="#555753">0x0000e067</font>  <font color="#555753">?</font> <font color="#AFD700">add</font><font color="#EEEEEC">    %al,(%eax)</font>
+ <font color="#555753">0x0000e069</font>  <font color="#555753">?</font> <font color="#AFD700">add</font><font color="#EEEEEC">    %al,(%eax)</font>
+ <font color="#555753">0x0000e06b</font>  <font color="#555753">?</font> <font color="#AFD700">add</font><font color="#EEEEEC">    %al,(%eax)</font>
+ <font color="#555753">0x0000e06d</font>  <font color="#555753">?</font> <font color="#AFD700">add</font><font color="#EEEEEC">    %al,(%eax)</font>
+<font color="#06989A">───</font> <font color="#FCE94F"><b>Breakpoints</b></font> <font color="#06989A">──────────────────────────────────────────────────────────────────────────────────────────────────────</font>
+[<font color="#8AE234"><b>1</b></font>] <font color="#8AE234"><b>break</b></font> at <font color="#8AE234"><b>0x00007c00</b></font> for <font color="#8AE234"><b>*0x7c00</b></font>
+<font color="#06989A">───</font> <font color="#C4A000">Expressions</font> <font color="#06989A">──────────────────────────────────────────────────────────────────────────────────────────────────────</font>
+<font color="#06989A">───</font> <font color="#C4A000">History</font> <font color="#06989A">──────────────────────────────────────────────────────────────────────────────────────────────────────────</font>
+<font color="#06989A">───</font> <font color="#C4A000">Memory</font> <font color="#06989A">───────────────────────────────────────────────────────────────────────────────────────────────────────────</font>
+<font color="#06989A">───</font> <font color="#FCE94F"><b>Registers</b></font> <font color="#06989A">────────────────────────────────────────────────────────────────────────────────────────────────────────</font>
+      <font color="#555753">eax</font> 0x00000000                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+      <font color="#555753">ecx</font> 0x00000000 
+      [...]                                                  </pre>
