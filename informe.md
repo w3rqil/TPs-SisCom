@@ -232,3 +232,26 @@ Con los siguientes comandos indicar:
       <font color="#555753">eax</font> 0x00000000                                                                                                                                                                                                                                                                                                                                                                                                                                                    
       <font color="#555753">ecx</font> 0x00000000 
       [...]                                                  </pre>
+
+
+Se puede ver que luego de ejecutar los comandos hay un breakpoint en la direccion especificada:
+
+<pre><font color="#06989A">───</font> <font color="#FCE94F"><b>Assembly</b></font> <font color="#06989A">────────────────────────────────────────────────────────────────────────────────</font>
+ <font color="#8AE234"><b>0x0000fff0  ?</b></font> <font color="#AFD700">add</font><font color="#EEEEEC">    %al,(%eax)</font>
+ <font color="#555753">0x0000fff2</font>  <font color="#555753">?</font> <font color="#AFD700">add</font><font color="#EEEEEC">    %al,(%eax)</font>
+ <font color="#555753">0x0000fff4</font>  <font color="#555753">?</font> <font color="#AFD700">add</font><font color="#EEEEEC">    %al,(%eax)</font>
+ <font color="#555753">0x0000fff6</font>  <font color="#555753">?</font> <font color="#AFD700">add</font><font color="#EEEEEC">    %al,(%eax)</font>
+ <font color="#555753">0x0000fff8</font>  <font color="#555753">?</font> <font color="#AFD700">add</font><font color="#EEEEEC">    %al,(%eax)</font>
+ <font color="#555753">0x0000fffa</font>  <font color="#555753">?</font> <font color="#AFD700">add</font><font color="#EEEEEC">    %al,(%eax)</font>
+ <font color="#555753">0x0000fffc</font>  <font color="#555753">?</font> <font color="#AFD700">add</font><font color="#EEEEEC">    %al,(%eax)</font>
+ <font color="#555753">0x0000fffe</font>  <font color="#555753">?</font> <font color="#AFD700">add</font><font color="#EEEEEC">    %al,(%eax)</font>
+ <font color="#555753">0x00010000</font>  <font color="#555753">?</font> <font color="#AFD700">add</font><font color="#EEEEEC">    %al,(%eax)</font>
+ <font color="#555753">0x00010002</font>  <font color="#555753">?</font> <font color="#AFD700">add</font><font color="#EEEEEC">    %al,(%eax)</font>
+<font color="#06989A">───</font> <font color="#FCE94F"><b>Breakpoints</b></font> <font color="#06989A">─────────────────────────────────────────────────────────────────────────────</font>
+[<font color="#8AE234"><b>1</b></font>] <font color="#8AE234"><b>break</b></font> at <font color="#8AE234"><b>0x00007c00</b></font> for <font color="#8AE234"><b>*0x7c00</b></font>
+<font color="#06989A">───</font> <font color="#C4A000">Expressions</font> <font color="#06989A">─────────────────────────────────────────────────────────────────────────────</font>
+<font color="#06989A">───</font> <font color="#C4A000">History</font> <font color="#06989A">─────────────────────────────────────────────────────────────────────────────────</font>
+<font color="#06989A">───</font> <font color="#C4A000">Memory</font> <font color="#06989A">──────────────────────────────────────────────────────────────────────────────────</font>
+<font color="#06989A">───</font> <font color="#FCE94F"><b>Registers</b></font> <font color="#06989A">───────────────────────────────────────────────────────────────────────────────</font>
+      <font color="#555753">eax</font> 0x00000000 
+      [...] </pre>
