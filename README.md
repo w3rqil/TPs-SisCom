@@ -79,7 +79,18 @@ En caso de necesitar salir del entorno es tan simple como ejecutar el comando:
 (py32) leonel@leonel-GFAST:~$ conda deactivate
 (base) leonel@leonel-GFAST:
 ```
-<<<<<<< HEAD
+
+## Librerias
+```
+pip3 install requests
+
+pip3 install numpy
+
+pip3 install matplotlib
+
+
+```
+
 # Deputación con GDB
 
 Para realizar una deputación utilizando gdb, se optó por crear una nueva carpeta con el archivo *"debug.c"*, esto se decidió para no incluir la GUI en el debugging ya que nos daba errores en el gdb. 
@@ -162,16 +173,3 @@ Después de avanzar con stepi, el eip ha cambiado para apuntar a la siguiente in
 Este resultado muestra el contexto del frame de la pila actual en la función main después de regresar de la función gini_manipulation_asm.
 Se muestra la dirección de eip y la dirección de retorno (saved eip) en main.
 También proporciona información sobre los argumentos y las variables locales en el contexto de main.
-=======
-
-## Librerias
-```
-pip3 install requests
-
-pip3 install numpy
-
-pip3 install matplotlib
-
-
-```
->>>>>>> 1e6fff4dd075fdead72f2ca55e96a64d62efa381
