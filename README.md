@@ -91,7 +91,7 @@ pip3 install matplotlib
 
 ```
 
-# Deputación con GDB
+# Depuración con GDB
 
 Para realizar una deputación utilizando gdb, se optó por crear una nueva carpeta con el archivo *"debug.c"*, esto se decidió para no incluir la GUI en el debugging ya que nos daba errores en el gdb. 
 Luego se creó el script *"debugging.sh"* para facilitar la ejecución del ṕrograma y el GDB:
