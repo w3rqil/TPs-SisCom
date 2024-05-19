@@ -41,6 +41,7 @@ A continuación se presenta una rpimer versión simplificada del diagrama de sec
   <img src="diagrams/secuence_diagram_tp2.png"/>
 </p>
 
+
 # Parte 2: Assembly
 ## Entorno
 Para el desarrollo de esta parte del trabajo práctico se necesitó de un entorno x86 de 32 bits para compilar el assembler. Para ello se utilizó [miniconda] (https://docs.anaconda.com/free/miniconda/), su instalación fue llevada a cabo con el siguiente procedimiento:
@@ -62,6 +63,8 @@ Luego se debe agregar el path en bashrc(en caso de que no esté agregado).
 En esta ocasión se utilizó el editor de texto sublime para modificar el bashrc agregando la línea _PATH="/home/usr/miniconda3/bin:$PATH"_
 ```
 subl ~/.bashrc
+
+source ~/.bashrc
 ```
 Luego de instalación de miniconda se generó un entorno de 32 bits:
 ```
@@ -75,4 +78,15 @@ En caso de necesitar salir del entorno es tan simple como ejecutar el comando:
 ```
 (py32) leonel@leonel-GFAST:~$ conda deactivate
 (base) leonel@leonel-GFAST:
+```
+
+## Librerias
+```
+pip3 install requests
+
+pip3 install numpy
+
+pip3 install matplotlib
+
+
 ```
