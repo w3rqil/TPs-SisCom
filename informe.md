@@ -255,3 +255,133 @@ Se puede ver que luego de ejecutar los comandos hay un breakpoint en la direccio
 <font color="#06989A">───</font> <font color="#FCE94F"><b>Registers</b></font> <font color="#06989A">───────────────────────────────────────────────────────────────────────────────</font>
       <font color="#555753">eax</font> 0x00000000 
       [...] </pre>
+
+
+Indicando c (continue) en gbd podemos ver como salta al breakpoint en 0x7c00:
+
+<pre><font color="#06989A">───</font> <font color="#C4A000">Source</font> <font color="#06989A">──────────────────────────────────────────────────────────────────────────────────</font>
+<font color="#06989A">───</font> <font color="#FCE94F"><b>Stack</b></font> <font color="#06989A">───────────────────────────────────────────────────────────────────────────────────</font>
+[<font color="#8AE234"><b>0</b></font>] from <font color="#8AE234"><b>0x00007c00</b></font>
+<font color="#06989A">───</font> <font color="#FCE94F"><b>Threads</b></font> <font color="#06989A">─────────────────────────────────────────────────────────────────────────────────</font>
+[<font color="#8AE234"><b>1</b></font>] id <font color="#8AE234"><b>1</b></font> from <font color="#8AE234"><b>0x00007c00</b></font>
+<font color="#06989A">───</font> <font color="#C4A000">Variables</font> <font color="#06989A">───────────────────────────────────────────────────────────────────────────────</font>
+<font color="#06989A">─────────────────────────────────────────────────────────────────────────────────────────────</font>
+<font color="#AD7FA8"><b>&gt;&gt;&gt;</b></font> 
+</pre>
+
+## Breakpint luego de la llamada a la interrupción
+
+Con el comando 'si' le indicamos que continue a la siguiente dirección hasta llegar a la dirección 0x7c0a y colocar un breakpoint: 
+<pre><font color="#AD7FA8"><b>&gt;&gt;&gt;</b></font> x /i $eip
+=&gt; <font color="#3465A4">0x7c0a</font>:	<font color="#4E9A06">int</font><font color="#D3D7CF">    </font><font color="#CC0000">$0x10</font>
+<font color="#AD7FA8"><b>&gt;&gt;&gt;</b></font> b *0x7c0a
+Breakpoint 2 at <font color="#3465A4">0x7c0a</font>
+<font color="#AD7FA8"><b>&gt;&gt;&gt;</b></font> c
+</pre>
+
+Luego ejecutado 'c' podemos ver como se va escribiendo "hello world" en el QEMU.
+
+# Protected Mode
+
+Para que el procesador funcione en modo protegido hay que modificar el codigo main.S:
+1) Deshabilitar interrupciones:
+```
+cli     
+```
+2) Cargar la GDT:
+
+```
+lgdt gdt_descriptor 
+```
+3) Fijar el bit mas bajo del CR0 en 1:
+
+```
+mov %cr0, %eax          
+orl $0x1, %eax
+mov %eax, %cr0
+```
+4) Saltar a la sección de código de 32 bits
+
+```
+ljmp $CODE_SEG, $protected_mode
+```
+
+## Compilación
+run 'runProtectedMode.sh'
+```
+>> as -g -o main.o main.S
+>> ld --oformat binary -o main.img -T link.ld main.o
+>> qemu-system-i386 -fda main.img -boot a -s -S -monitor stdio
+```
+
+
+<p align="center">
+  <img src="media/protectedmode.png" alt="Texto alternativo">
+</p>
+
+### ¿Cómo sería un programa que tenga dos descriptores de memoria diferentes, uno para cada segmento (código y datos) en espacios de memoria diferenciados?
+<p align="justify">
+En modo protegido, un programa puede utilizar diferentes segmentos de memoria para código y datos, lo que permite una separación clara y segura entre las instrucciones ejecutables y los datos manipulables. Esto se logra mediante el uso de descriptores de segmento en la GDT (Global Descriptor Table).
+<p align="justify">
+Para definir los segmentos en dos espacios de memoria diferente se debe crear dos descriptores de memoria en la GDT y asignarle la base, el limite y sus atributos.
+
+
+### Cambiar los bits de acceso del segmento de datos para que sea de solo lectura,  intentar escribir, ¿Que sucede? ¿Que debería suceder a continuación? (revisar el teórico) Verificarlo con gdb. 
+<p align="justify">
+Si cambiamos los bits de acceso al segmento de datos para que sea solo lectura entonces cuando se quiera quiera escribir ocurrira un error. Modificamos los bits de escritura y lectura del gdt:
+
+```
+ gdt_data:
+        .word 0xffff       /* Segment limiter Bits 15-0 */
+        .word 0x0          /* Base address Bits 15-0 */
+        .byte 0x0          /* Base address Bits 23-16 */
+        .byte 0b10010000    /* Bit 8:     A (Accessed) = 0 
+                            * Bit 9:     W (Writable)  = 0
+                            * Bit 10:    E (Expansion-direction) = 0 
+                            * Bit 11:    0 (Data segment)
+                            * Bit 12:    S (Segment Type) = 1 
+                            * Bit 14-13: DPL (Descriptor Privilege Level) = 00 (Highest privilege)
+                            * Bit 15:    P (Present flag) = 1 (segment present) */
+```
+
+Cuando se llega a la linea 'mov    %eax,%ss' donde se le quiere cargar a ss el valor de eax se rompe el codigo ya que no esta habilitado:
+```
+(qemu) x /i $eip
+0x00007c3d:  mov    %eax,%es
+(qemu) x /i $eip
+0x00007c3f:  mov    %eax,%fs
+(qemu) x /i $eip
+0x00007c41:  mov    %eax,%gs
+(qemu) x /i $eip
+0x00007c43:  mov    %eax,%ss
+(qemu) x /i $eip
+0x0000e05b:  add    %al,(%bx,%si) // CODIGO ROTO
+(qemu) x /i $eip
+0x0000e062:  add    %al,(%bx,%si)
+(qemu) x /i $eip
+0x0000d0ae:  add    %al,(%bx,%si)
+```
+
+Y nunca se imprime el mensaje del modo protegido:
+
+<p align="center">
+  <img src="media/read-only.png" alt="Texto alternativo">
+</p>
+
+### En modo protegido, ¿Con qué valor se cargan los registros de segmento ? ¿Porque? 
+<p align="justify">
+En modo protegido, los registros de segmento (CS, DS, SS, ES, FS y GS) se cargan con
+selectores de segmento en lugar de direcciones lineales. Estos selectores de segmento son
+índices en la tabla de descriptores de segmento global (GDT) o en la tabla de descriptores de segmento local (LDT).
+</p>
+<p align="justify">
+El valor cargado en cada registro de segmento es un selector de segmento, que es un
+número de 16 bits que se utiliza para indexar en la GDT o LDT para obtener el descriptor de
+segmento correspondiente. El descriptor de segmento contiene información sobre la
+ubicación física del segmento, su tamaño y sus permisos (acceso, protección, etc.).
+</p>
+<p align="justify">
+El uso de selectores de segmento permite al sistema operativo y a las aplicaciones crear y
+administrar múltiples segmentos de memoria, y controlar el acceso a los mismos para
+garantizar la seguridad y la estabilidad del sistema.
+</p>
