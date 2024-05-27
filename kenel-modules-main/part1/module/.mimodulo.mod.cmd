@@ -1,0 +1,1 @@
+cmd_/home/florxha/Desktop/SdC/TPs-SisCom/kenel-modules-main/part1/module/mimodulo.mod := { echo  /home/florxha/Desktop/SdC/TPs-SisCom/kenel-modules-main/part1/module/mimodulo.o;  echo; } > /home/florxha/Desktop/SdC/TPs-SisCom/kenel-modules-main/part1/module/mimodulo.mod
