@@ -636,3 +636,41 @@ Processing triggers for libc-bin (2.35-0ubuntu3.7) ...
 (base) <font color="#8AE234"><b>florxha@florxha-Inspiron-7375</b></font>:<font color="#729FCF"><b>~/Desktop/SdC/TPs-SisCom</b></font>$ cd analisis_modulos/
 (base) <font color="#8AE234"><b>florxha@florxha-Inspiron-7375</b></font>:<font color="#729FCF"><b>~/Desktop/SdC/TPs-SisCom/analisis_modulos</b></font>$ sudo hwinfo --all &gt; hwinfo_output_flor.txt
 </pre>
+
+3) Módulos vs. Programas
+La diferencia principal entre un módulo y un programa es que un programa está formado por un conjunto de instrucciones que serán ejecutadas en el espacio del usuario e interactúan con el kernel a través de system calls, y por otro lado, un módulo es código que se puede cargar en el kernel extendiendo la funcionalidad del mismo, o descargarlos dependiendo de lo que se necesite.
+
+4) ¿Cómo puede ver una lista de las llamadas al sistema que realiza un simple helloworld en c?
+
+ ** HACER **
+ 
+5) ¿Que es un segmentation fault? como lo maneja el kernel y como lo hace un programa?
+
+El “segmentation fault” es un error de memoria causado por el intento de un programa de acceder a una dirección a la que no se le permite acceder. Algunas de las posibles razones por las que se hace un acceso incorrecto pueden ser leer o escribir en una dirección no asignada por el programa, desreferenciar un puntero nulo, y escribir en lo que está en memoria de solo lectura.
+**Cómo aborda el kernel un segmentation fault**
+
+- Detección:
+	El hardware de la CPU detecta la operación ilegal de la memoria y genera una interrupción.
+	Esta interrupción se llama segmentación.fa excepción ult.
+- Una señal se genera:
+	El kernel del sistema operativo recibe la excepción y envía una señal distinta al proceso que cometió el error. En sistemas Unix y similares, esta señal se conoce como SIGSEGV.
+- Manejo de señales:
+	Si el proceso ha registrado un manejador para señales SIGSEGV, se ejecuta ese manejador.
+	Si el proceso no contiene un manejador de señales SIGSEGV o si el manejador no puede resolver el problema, el proceso se finaliza instantáneamente.
+	El kernel también puede registrar el error en un archivo de registro del sistema para fines de depuración.
+
+**Cómo maneja un programa un segmentation fault**
+
+- Registro de un handler de Señales:
+	Un programa puede registrar un manejador de señales para SIGSEGV usando la función signal() o sigaction() en C. Este manejador es una función definida por el programador que especifica cómo debe reaccionar el programa ante la señal.
+- Prevención
+	La prevención de los segmentation faults se da en los programadores, quienes deben realizar buenas prácticas de programación a la hora de escribir código.
+- Depuración de segmentation fault:
+	Una opción común es utilizar GDB para rastrear los segmentation faults, ya que depurando se puede seguir el estado del programa previo a un segmentation fault y, también, porque dgb muestra el punto exacto del fallo.
+
+6) ¿Se animan a intentar firmar un módulo de kernel ? y documentar el proceso ?  https://askubuntu.com/questions/770205/how-to-sign-kernel-modules-with-sign-file
+** HACER **
+7) Agregar evidencia de la compilación, carga y descarga de su propio módulo imprimiendo el nombre del equipo en los registros del kernel. 
+** HACER **
+8) ¿Que pasa si mi compañero con secure boot habilitado intenta cargar un módulo firmado por mi?
+** HACER **
