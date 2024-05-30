@@ -30,11 +30,10 @@ __used __section("__versions") = {
 	{ 0x6ad771c3, "module_layout" },
 	{ 0x5b8239ca, "__x86_return_thunk" },
 	{ 0x92997ed8, "_printk" },
-	{ 0xa22a96f7, "current_task" },
 	{ 0xbdfb6dbb, "__fentry__" },
 };
 
 MODULE_INFO(depends, "");
 
 
-MODULE_INFO(srcversion, "CF031167E28AB24B529BEFD");
+MODULE_INFO(srcversion, "13999CFE69D209B508F22DB");

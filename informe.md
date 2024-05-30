@@ -642,7 +642,17 @@ La diferencia principal entre un módulo y un programa es que un programa está 
 
 4) ¿Cómo puede ver una lista de las llamadas al sistema que realiza un simple helloworld en c?
 
- ** HACER **
+Para ver la lista de las llamadas al sistema se creo un simple hellowworld.c.
+
+Luego se compilo el programa con gcc:
+```
+gcc -o helloworld helloworld.c
+
+```
+Y por último se ejecuto con strace para ver todas las llamadas a sistema y se guardaron en un archivo de texto 'strace_output.txt':
+```
+strace ./helloworld > strace_output.txt 2>&1
+```
  
 5) ¿Que es un segmentation fault? como lo maneja el kernel y como lo hace un programa?
 
@@ -669,8 +679,95 @@ El “segmentation fault” es un error de memoria causado por el intento de un 
 	Una opción común es utilizar GDB para rastrear los segmentation faults, ya que depurando se puede seguir el estado del programa previo a un segmentation fault y, también, porque dgb muestra el punto exacto del fallo.
 
 6) ¿Se animan a intentar firmar un módulo de kernel ? y documentar el proceso ?  https://askubuntu.com/questions/770205/how-to-sign-kernel-modules-with-sign-file
-** HACER **
+
+Primero se generan un par de claves privadas y públicas para la firma del módulo:
+```
+(base) florxha@florxha-Inspiron-7375:~/Desktop/SdC/TPs-SisCom/kenel-modules-main/part1/module$ openssl req -new -x509 -newkey rsa:2048 -keyout signing_key.priv -outform DER -out signing_key.x509 -nodes -days 365
+.+...+...+.+...+...+..............+.+..+...+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*..+...+........+.............+.....+....+......+......+...........+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*................................+........+.+........+.+............+..+...+..........+..+.......+.....+.........+....+..+......+....+........+...+....+...+...+..+......+.+...+...+..+.+.....+................+......+..............+.+........+....+..+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+..+..+......+..........+..+...+..........+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*..+......+.+......+...+......+.....+................+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*...+...+...............+...+..............+....+..+............+.......+........+.+..+....+...............+.....+...+.......+.....+......+...+....+...+...+..+.......+..+...+.+..+.......+..+..........+...+.....+.............+..+.+..............+.+.....+.........+...+.........+......+.............+..+..................+............+............+......+.+........+...+....+...+...+..................+.....+......+.+..................+..+..........+.........+........+.+.....+.........+...+...+.+...+.....+..........+........+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+-----
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [AU]:AR
+State or Province Name (full name) [Some-State]:Cordoba
+Locality Name (eg, city) []:Cordoba
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:FCEFyN
+Organizational Unit Name (eg, section) []:Catedra Sistemas de Computacion
+Common Name (e.g. server FQDN or YOUR name) []:Florencia
+Email Address []:florencia.schroder@gmail.com
+```
+Luego se utiliza la herramienta kmodsign para firmar el módulo con la clave generada. Esta herramienta generalmente esta incluida en el paquete linux-headers:
+<pre>(base) <font color="#8AE234"><b>florxha@florxha-Inspiron-7375</b></font>:<font color="#729FCF"><b>~/Desktop/SdC/TPs-SisCom/kenel-modules-main/part1/module</b></font>$ /usr/src/linux-headers-$(uname -r)/scripts/sign-file sha256 signing_key.priv signing_key.x509 mimodulo.ko
+</pre>
+
+Por último se comprueba la firma del módulo:
+<pre>(base) <font color="#8AE234"><b>florxha@florxha-Inspiron-7375</b></font>:<font color="#729FCF"><b>~/Desktop/SdC/TPs-SisCom/kenel-modules-main/part1/module</b></font>$ modinfo mimodulo.ko
+filename:       /home/florxha/Desktop/SdC/TPs-SisCom/kenel-modules-main/part1/module/mimodulo.ko
+author:         Catedra de SdeC
+description:    Primer modulo ejemplo
+license:        GPL
+srcversion:     C6390D617B2101FB1B600A9
+depends:        
+retpoline:      Y
+name:           mimodulo
+vermagic:       5.15.0-91-generic SMP mod_unload modversions 
+sig_id:         PKCS#7
+signer:         Florencia
+sig_key:        6D:89:C9:2F:84:AC:0A:5B:5C:47:26:8B:BA:26:46:2C:E2:3C:AB:81
+sig_hashalgo:   sha256
+signature:      50:D5:74:53:2A:93:00:20:01:04:35:64:DD:CD:6B:C5:84:4C:BE:A2:
+		95:28:C2:7E:64:D5:73:85:31:22:D8:00:1A:F2:42:FA:1A:CE:F2:E2:
+		F2:83:32:AE:02:5E:B8:F4:4B:BA:75:42:B9:A0:D6:B1:FD:99:BF:AA:
+		7F:1A:13:CA:9D:02:A2:E7:C8:D5:0A:3C:29:7E:D8:84:8B:BF:22:B5:
+		31:BB:84:A2:98:F6:E0:70:2F:73:43:A4:E5:C0:8F:5E:99:B4:65:3D:
+		5B:01:65:97:31:A8:5A:D6:F8:9A:7B:75:DF:AE:BA:14:AA:53:53:42:
+		81:93:F7:09:89:5B:10:4A:37:45:7C:C1:C9:41:44:7F:E4:74:FE:68:
+		F3:E5:95:F3:D4:B0:07:64:2E:6B:CE:C1:4D:2B:F6:43:F6:64:5D:30:
+		43:9E:EF:2B:27:FD:3F:00:AE:15:F5:2D:27:C3:7A:D9:88:8F:76:92:
+		3A:B6:47:55:E0:DD:78:8E:31:79:E1:82:F7:81:38:AC:E2:39:31:8D:
+		B7:E9:5F:11:09:3E:A4:BF:B4:72:B3:E6:6D:74:11:9A:71:28:90:0A:
+		B4:C8:3D:EB:E1:BB:BE:00:D2:6C:CF:55:8A:AF:D7:A9:B5:A8:08:6C:
+		7B:04:6F:EA:75:C1:96:A1:4A:A7:5E:F1:9C:3B:59:39
+</pre>
+
 7) Agregar evidencia de la compilación, carga y descarga de su propio módulo imprimiendo el nombre del equipo en los registros del kernel. 
-** HACER **
+
+Para imprimir el nombre del equipo cuando se carga nuestro módulo utilizamos la libreria '#include <linux/utsname.h>' que obtiene el nombre del equipo y modificamos el metodo 'modulo_lin_init(void)':
+
+```
+int modulo_lin_init(void)
+{
+	struct new_utsname *uts;
+    uts = utsname();
+	printk(KERN_INFO "Hola, este es el equipo: %s\n", uts->nodename);
+
+	/* Devolver 0 para indicar una carga correcta del módulo */
+	return 0;
+}
+```
+<pre>(base) <font color="#8AE234"><b>florxha@florxha-Inspiron-7375</b></font>:<font color="#729FCF"><b>~/Desktop/SdC/TPs-SisCom/kenel-modules-main/part1/module</b></font>$ sudo insmod mimodulo.ko
+(base) <font color="#8AE234"><b>florxha@florxha-Inspiron-7375</b></font>:<font color="#729FCF"><b>~/Desktop/SdC/TPs-SisCom/kenel-modules-main/part1/module</b></font>$ dmesg | tail
+[551540.813709] audit: type=1400 audit(1717076791.035:38): apparmor=&quot;ALLOWED&quot; operation=&quot;connect&quot; profile=&quot;libreoffice-soffice&quot; name=&quot;/run/user/1000/at-spi/bus_0&quot; pid=141221 comm=&quot;soffice.bin&quot; requested_mask=&quot;wr&quot; denied_mask=&quot;wr&quot; fsuid=1000 ouid=1000
+[551540.813861] audit: type=1400 audit(1717076791.035:39): apparmor=&quot;ALLOWED&quot; operation=&quot;file_perm&quot; profile=&quot;libreoffice-soffice&quot; name=&quot;/run/user/1000/at-spi/bus_0&quot; pid=141221 comm=&quot;soffice.bin&quot; requested_mask=&quot;r&quot; denied_mask=&quot;r&quot; fsuid=1000 ouid=1000
+[551540.813864] audit: type=1400 audit(1717076791.035:40): apparmor=&quot;ALLOWED&quot; operation=&quot;file_perm&quot; profile=&quot;libreoffice-soffice&quot; name=&quot;/run/user/1000/at-spi/bus_0&quot; pid=141221 comm=&quot;soffice.bin&quot; requested_mask=&quot;r&quot; denied_mask=&quot;r&quot; fsuid=1000 ouid=1000
+[556043.318273] input: Echo Dot-165 (AVRCP) as /devices/virtual/input/input64
+[557150.993027] traps: chrome[145820] trap invalid opcode ip:5637fe7116f8 sp:7ffe71727750 error:0 in chrome[5637f7797000+b118000]
+[557207.558086] Modulo cargado en el kernel.
+[557314.309032] Modulo descargado del kernel.
+[557315.409762] Hola, este es el equipo: florxha-Inspiron-7375
+[557516.543110] Modulo descargado del kernel.
+[557530.494722] Hola, este es el equipo: florxha-Inspiron-7375
+</pre>
+
 8) ¿Que pasa si mi compañero con secure boot habilitado intenta cargar un módulo firmado por mi?
-** HACER **
+
+Si el módulo está firmado con una clave privada que no está reconocida por el Secure Boot de la máquina de tu compañero, el módulo no se cargará.
+El sistema verá que la firma es de una entidad no confiable y bloqueará la carga del módulo.
+
+Para que el módulo sea aceptado, la clave pública correspondiente a la clave privada con la que fue firmado debe estar instalada en el firmware UEFI de la máquina del compañero.
+Esta clave pública debe ser registrada en el sistema como una clave de firma confiable.

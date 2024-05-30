@@ -1,0 +1,1 @@
+cmd_/home/florxha/Desktop/SdC/TPs-SisCom/hello_world_module/src/hello_world_module.mod := { echo  /home/florxha/Desktop/SdC/TPs-SisCom/hello_world_module/src/hello_world_module.o;  echo; } > /home/florxha/Desktop/SdC/TPs-SisCom/hello_world_module/src/hello_world_module.mod
