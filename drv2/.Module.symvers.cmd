@@ -1,0 +1,1 @@
+cmd_/home/florxha/Desktop/SdC/TPs-SisCom/drv2/Module.symvers := sed 's/\.ko$$/\.o/' /home/florxha/Desktop/SdC/TPs-SisCom/drv2/modules.order | scripts/mod/modpost -m -a  -o /home/florxha/Desktop/SdC/TPs-SisCom/drv2/Module.symvers -e -i Module.symvers   -T -

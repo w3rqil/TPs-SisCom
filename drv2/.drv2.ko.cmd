@@ -1,0 +1,1 @@
+cmd_/home/florxha/Desktop/SdC/TPs-SisCom/drv2/drv2.ko := ld -r -m elf_x86_64 -z noexecstack --build-id=sha1  -T scripts/module.lds -o /home/florxha/Desktop/SdC/TPs-SisCom/drv2/drv2.ko /home/florxha/Desktop/SdC/TPs-SisCom/drv2/drv2.o /home/florxha/Desktop/SdC/TPs-SisCom/drv2/drv2.mod.o;  true
