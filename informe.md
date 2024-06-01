@@ -310,3 +310,18 @@ Hola mundo...
 [ 1469.573510] Clipboard: Modulo descargado..!!
 (base) <font color="#8AE234"><b>florxha@florxha-Inspiron-7375</b></font>:<font color="#729FCF"><b>~/Desktop/SdC/TPs-SisCom/clipboard</b></font>$ 
 </pre>
+
+# Introduccion practica
+
+## Conceptos Clave y Definiciones
+
+- Driver: Un "driver" es un componente que controla y maneja la interacción de una entidad (como un bus o un dispositivo) con el sistema principal (por ejemplo, una computadora). Puede ser una persona, un sistema automático, o en el contexto de computación, un software.
+- Bus Driver: Software que controla la comunicación y la transferencia de datos entre el bus y el sistema principal.
+- Device Driver: Software que permite al sistema operativo y otros programas interactuar con un dispositivo de hardware específico.
+- Device Controller: Un dispositivo de hardware que maneja la operación de otro dispositivo de hardware, frecuentemente requiriendo un "driver" para interactuar correctamente con el sistema operativo.
+
+### Ejemplos de Device Controllers
+- Controladores de Disco Duro: Gestionan la lectura/escritura de datos en el disco duro.
+- Controladores de Pantalla: Gestionan la representación de imágenes en el monitor.
+- Controladores de Audio: Gestionan la entrada y salida de audio.
+- Controladores de Protocolos de Hardware: Incluyen controladores IDE, PCI, USB, SPI, I2C, etc.
