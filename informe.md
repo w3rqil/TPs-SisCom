@@ -1,4 +1,9 @@
-## Vamos a trabajar con drv1.c..!!  compilar y mostrar la info.
+## Vamos a trabajar con drv1.c!!
+
+- Usamos el comando *‘make’* para compilar el módulo. Luego, con el comando *‘ls’*, podemos ver los archivos generados por *‘make’*. 
+- Después, ejecutamos *‘insmod’* para insertar el módulo *‘drv1.ko’* en el kernel. 
+  - Es importante destacar que este último comando debe ejecutarse con privilegios de superusuario.
+- Luego, con el comando '*rmmod*', retiramos el módulo del kernel.
 
 <pre>(base) <font color="#8AE234"><b>florxha@florxha-Inspiron-7375</b></font>:<font color="#729FCF"><b>~/Desktop/SdC/TPs-SisCom/drv1</b></font>$ make
 make -C /lib/modules/5.15.0-91-generic/build M=/home/florxha/Desktop/SdC/TPs-SisCom/drv1 modules
@@ -49,7 +54,8 @@ vermagic:       5.15.0-91-generic SMP mod_unload modversions
 [727582.306957] SdeC: drv1 dice Adios mundo cruel..!!
 </pre>
 
-## Continuar con drv2.c..!!
+##  drv2.c
+
 ```
 (base) florxha@florxha-Inspiron-7375:~/Desktop/SdC/TPs-SisCom/drv2$ make
 make -C /lib/modules/5.15.0-91-generic/build M=/home/florxha/Desktop/SdC/TPs-SisCom/drv2 modules
@@ -230,6 +236,24 @@ exit
 [  395.942186] SdeC_drv3 dice Adios mundo cruel..!!
 </pre>
 
+### /sys/class/
+**¿Qué es ‘/sys/class/’? ¿En qué carpeta deberíamos encontrarlo?**
+En sistemas operativos basados en Linux, como Ubuntu, ‘/sys/class/’ es un directorio que contiene información sobre los dispositivos y las clases de dispositivos presentes en el sistema. Proporciona una interfaz para que los programas y los usuarios accedan a información específica sobre los dispositivos y realicen operaciones relacionadas con ellos. Dentro de la carpeta ‘/sys/class/’, encontraremos subcarpetas correspondientes a diferentes clases de dispositivos, como ‘block’ (dispositivos de bloque, como discos duros), ‘net’ (dispositivos de red), ‘input’ (dispositivos de entrada, como teclados y ratones), entre otros. Cada subcarpeta contiene archivos y subcarpetas que representan dispositivos específicos y proporcionan información relevante.
+
+Es importante destacar que el directorio ‘/sys’ es un sistema de archivos virtual en Linux y no corresponde a un almacenamiento físico en el disco. Contiene información dinámica y en tiempo real sobre el sistema y los dispositivos conectados.
+
+En el entorno de Linux, las clases en /sys/class se utilizan para categorizar y organizar los diversos tipos de dispositivos presentes en el sistema. Cada clase representa un tipo específico de dispositivo y proporciona una interfaz estandarizada para acceder a la información y controlar dichos dispositivos.
+Estas clases permiten a los programas y a los usuarios interactuar con los dispositivos de manera coherente, independientemente de su fabricante o modelo. Proporcionan una capa de abstracción que oculta los detalles específicos del dispositivo y ofrece una forma uniforme de acceder a sus características y funcionalidades.
+Dentro de /sys/class, cada clase tiene su propia estructura de archivos y directorios. Esto permite acceder a información como el estado del dispositivo, sus atributos, capacidades y los controladores asociados. Los archivos y subcarpetas en cada clase proporcionan interfaces para leer y escribir valores, configurar opciones y realizar operaciones relacionadas con los dispositivos.
+Algunas clases comunes que se encuentran en /sys/class incluyen:
+
+  - block: Dispositivos de almacenamiento de bloques, como discos duros y unidades flash.
+  - net: Dispositivos de red, como tarjetas de red e interfaces inalámbricas.
+  - input: Dispositivos de entrada, como teclados, ratones y joysticks.
+  - video: Dispositivos de video, como cámaras web y tarjetas de captura de video.
+  - sound: Dispositivos de sonido, como tarjetas de sonido y dispositivos de reproducción de audio.
+
+Estas clases, junto con otras, proporcionan una forma organizada y estandarizada de interactuar con los dispositivos en el sistema operativo Linux.
 ## Trabajamos con drv4
 Como siempre, lo compilamos y hacemos las verificaciones de rutina.
 A partir de cat y echo, debemos observar los detalles de lo que ocurre:
@@ -325,3 +349,4 @@ Hola mundo...
 - Controladores de Pantalla: Gestionan la representación de imágenes en el monitor.
 - Controladores de Audio: Gestionan la entrada y salida de audio.
 - Controladores de Protocolos de Hardware: Incluyen controladores IDE, PCI, USB, SPI, I2C, etc.
+
