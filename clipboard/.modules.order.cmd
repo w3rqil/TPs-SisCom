@@ -1,0 +1,1 @@
+cmd_/home/florxha/Desktop/SdC/TPs-SisCom/clipboard/modules.order := {   echo /home/florxha/Desktop/SdC/TPs-SisCom/clipboard/clipboard.ko; :; } | awk '!x[$$0]++' - > /home/florxha/Desktop/SdC/TPs-SisCom/clipboard/modules.order

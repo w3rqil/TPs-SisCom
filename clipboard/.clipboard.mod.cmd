@@ -1,0 +1,1 @@
+cmd_/home/florxha/Desktop/SdC/TPs-SisCom/clipboard/clipboard.mod := { echo  /home/florxha/Desktop/SdC/TPs-SisCom/clipboard/clipboard.o;  echo; } > /home/florxha/Desktop/SdC/TPs-SisCom/clipboard/clipboard.mod

@@ -268,3 +268,45 @@ H(base) <font color="#8AE234"><b>florxha@florxha-Inspiron-7375</b></font>:<font 
 [  894.681786] SdeC_drv4: read()
 [  894.681793] SdeC_drv4: close()
 </pre>
+
+## Para terminar trabajamos con clipboard.c
+
+Compilarlo e insertar el módulo en el kernel.
+
+<pre>(base) <font color="#8AE234"><b>florxha@florxha-Inspiron-7375</b></font>:<font color="#729FCF"><b>~/Desktop/SdC/TPs-SisCom/clipboard</b></font>$ make
+make -C /lib/modules/5.15.0-91-generic/build M=/home/florxha/Desktop/SdC/TPs-SisCom/clipboard modules
+make[1]: Entering directory &apos;/usr/src/linux-headers-5.15.0-91-generic&apos;
+  CC [M]  /home/florxha/Desktop/SdC/TPs-SisCom/clipboard/clipboard.o
+  MODPOST /home/florxha/Desktop/SdC/TPs-SisCom/clipboard/Module.symvers
+  CC [M]  /home/florxha/Desktop/SdC/TPs-SisCom/clipboard/clipboard.mod.o
+  LD [M]  /home/florxha/Desktop/SdC/TPs-SisCom/clipboard/clipboard.ko
+  BTF [M] /home/florxha/Desktop/SdC/TPs-SisCom/clipboard/clipboard.ko
+Skipping BTF generation for /home/florxha/Desktop/SdC/TPs-SisCom/clipboard/clipboard.ko due to unavailability of vmlinux
+make[1]: Leaving directory &apos;/usr/src/linux-headers-5.15.0-91-generic&apos;
+(base) <font color="#8AE234"><b>florxha@florxha-Inspiron-7375</b></font>:<font color="#729FCF"><b>~/Desktop/SdC/TPs-SisCom/clipboard</b></font>$ sudo insmod clipboard.ko
+</pre>
+
+
+Luego ejecutar los siguientes comandos: 
+- echo “Hola mundo...” > /proc/clipboard
+- cat /proc/clipboard
+
+<pre>(base) <font color="#8AE234"><b>florxha@florxha-Inspiron-7375</b></font>:<font color="#729FCF"><b>~/Desktop/SdC/TPs-SisCom/clipboard</b></font>$ ls -la /proc/clipboard 
+-rw-rw-rw- 1 root root 0 Jun  1 12:37 /proc/clipboard
+(base) <font color="#8AE234"><b>florxha@florxha-Inspiron-7375</b></font>:<font color="#729FCF"><b>~/Desktop/SdC/TPs-SisCom/clipboard</b></font>$ echo &quot;Hola mundo...&quot; &gt; /proc/clipboard 
+(base) <font color="#8AE234"><b>florxha@florxha-Inspiron-7375</b></font>:<font color="#729FCF"><b>~/Desktop/SdC/TPs-SisCom/clipboard</b></font>$ cat /proc/clipboard 
+Hola mundo...
+(base) <font color="#8AE234"><b>florxha@florxha-Inspiron-7375</b></font>:<font color="#729FCF"><b>~/Desktop/SdC/TPs-SisCom/clipboard</b></font>$ sudo rmmod clipboard.ko
+(base) <font color="#8AE234"><b>florxha@florxha-Inspiron-7375</b></font>:<font color="#729FCF"><b>~/Desktop/SdC/TPs-SisCom/clipboard</b></font>$ dmesg | tail
+[  889.626150] SdeC_drv4: read()
+[  889.626164] SdeC_drv4: read()
+[  889.626174] SdeC_drv4: close()
+[  894.681764] SdeC_drv4: open()
+[  894.681774] SdeC_drv4: read()
+[  894.681786] SdeC_drv4: read()
+[  894.681793] SdeC_drv4: close()
+[ 1220.495576] SdeC_drv4: dice Adios mundo cruel..!!
+[ 1386.828685] Clipboard: Modulo cargado..!!
+[ 1469.573510] Clipboard: Modulo descargado..!!
+(base) <font color="#8AE234"><b>florxha@florxha-Inspiron-7375</b></font>:<font color="#729FCF"><b>~/Desktop/SdC/TPs-SisCom/clipboard</b></font>$ 
+</pre>

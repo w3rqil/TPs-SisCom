@@ -1,0 +1,1 @@
+cmd_/home/florxha/Desktop/SdC/TPs-SisCom/clipboard/clipboard.ko := ld -r -m elf_x86_64 -z noexecstack --build-id=sha1  -T scripts/module.lds -o /home/florxha/Desktop/SdC/TPs-SisCom/clipboard/clipboard.ko /home/florxha/Desktop/SdC/TPs-SisCom/clipboard/clipboard.o /home/florxha/Desktop/SdC/TPs-SisCom/clipboard/clipboard.mod.o;  true
