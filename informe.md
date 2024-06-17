@@ -392,19 +392,19 @@ Se tuvo que realizar un simple circuito que fue conectado a los pines 22 y 27 de
 
 <p align="center">
   <img src="img/circuito-tp5.jpeg" alt="Circuito ">
-  <figcaption>Imagen: Circuito</figcaption>
+  <figcaption style="text-align: center;font-style: italic;">Imagen: Circuito</figcaption>
 </p>
 
 A continuación los gráficos conseguidos por el programa .py:
 ### Pin 22
 <p align="center">
   <img src="img/pin1-signal.jpeg" alt="Circuito ">
-  <figcaption>Imagen: Plot pin 1 (22)</figcaption>
+  <figcaption style="text-align: center;font-style: italic;">Imagen: Plot pin 1 (22)</figcaption>
 </p>
 
 ### Pin 27
 
 <p align="center">
   <img src="img/pin2-signal.jpeg" alt="Circuito ">
-  <figcaption>Imagen: Plot pin 2 (27)</figcaption>
+   <figcaption style="text-align: center;font-style: italic;">Imagen: Plot pin 2 (27)</figcaption>
 </p>
