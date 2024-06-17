@@ -350,3 +350,61 @@ Hola mundo...
 - Controladores de Audio: Gestionan la entrada y salida de audio.
 - Controladores de Protocolos de Hardware: Incluyen controladores IDE, PCI, USB, SPI, I2C, etc.
 
+## QEMU
+
+Para ejecutar nuestro driver en QEMU se realizó la siguiente secuencia de instrucciones:
+
+- Se instaló qemu
+```
+sudo apt-get update
+sudo apt-get install qemu qemu-system qemu-system-arm
+```
+- Se configuró qemu para emular una Raspberry PI:
+
+```
+sudo apt-get update
+sudo apt-get install qemu qemu-system qemu-system-arm
+```
+
+- Se realizó la transferencia de los archivos al sistema emulado:
+
+```
+scp -P 5022 -r src/ pi@localhost:/home/pi/
+```
+
+- Inicio de sesión en el emulador:
+*ssh -p 5022 pi@localhost*
+
+- Instalación del driver:
+
+```
+sudo insmod /home/pi/gpio_cdd.ko
+MAJOR=$(awk '$2=="gpio_cdd" {print $1}' /proc/devices)
+sudo mknod /dev/gpio_cdd c $MAJOR 0
+sudo chmod 666 /dev/gpio_cdd
+```
+Luego de estos pasos se puede ejecutar el driver como se realizaría normalmente. Solo se debe tener en cuenta que las lecturas de los gpio son simuladas, por lo tanto se debería realizar esa modificación en el código 
+## Raspberry PI 3
+
+Para la aplicación del trbajo práctico se utilizó una Raspberry PI 3.
+La carga del módulo en la raspberry se realiza, ya teniendo los correspondientes códigos en el dispositivo, ejecutandoe el script *BUILD_CDD.sh*.
+Se tuvo que realizar un simple circuito que fue conectado a los pines 22 y 27 de la raspberry, a continuación ima imágen del mismo (foto tomada en acción):
+
+<p align="center">
+  <img src="img/circuito-tp5.jpeg" alt="Circuito ">
+  <figcaption>Imagen: Circuito</figcaption>
+</p>
+
+A continuación los gráficos conseguidos por el programa .py:
+### Pin 22
+<p align="center">
+  <img src="img/pin1-signal.jpeg" alt="Circuito ">
+  <figcaption>Imagen: Plot pin 1 (22)</figcaption>
+</p>
+
+### Pin 27
+
+<p align="center">
+  <img src="img/pin2-signal.jpeg" alt="Circuito ">
+  <figcaption>Imagen: Plot pin 2 (27)</figcaption>
+</p>
